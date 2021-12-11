@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_todo_app/controllers/todo_controller.dart';
+import 'package:getx_todo_app/widgets/action_button.dart';
 import 'package:getx_todo_app/widgets/todo_tile.dart';
 
 class TodoList extends StatelessWidget {
@@ -28,8 +29,21 @@ class TodoList extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // TODO:ActionButtonを作成する（左下の完了削除ボタン）
-              // TODO:ActionButtonを作成する（右下の新規追加ボタン）
+              ActionButton(
+                label: '完了削除',
+                icon: Icons.delete,
+                color: Colors.grey,
+                onPressed: () {
+                  // TODO: フィルタが解除されていて、一つでも完了タスクがある場合のみ動作させる
+                  todoController.deleteDone();
+                },
+              ),
+              ActionButton(
+                label: '新規作成',
+                icon: Icons.add,
+                color: Theme.of(context).colorScheme.secondary,
+                onPressed: () => Get.toNamed('/todo'),
+              ),
             ],
           ),
         ],

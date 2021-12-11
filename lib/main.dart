@@ -31,9 +31,11 @@ class MyApp extends StatelessWidget {
           page: () => HomePage(),
         ),
         GetPage(
-          name: '/todo/:todoId',
-          page: () => AddTodoPage(todoId: Get.parameters['todoId']),
-        )
+          name: '/todo',
+          page: () => AddTodoPage(
+            todoId: Get.parameters['id'],
+          ),
+        ),
       ],
     );
   }

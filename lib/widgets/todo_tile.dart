@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_todo_app/controllers/todo_controller.dart';
 import 'package:getx_todo_app/model/todo.dart';
+import 'package:getx_todo_app/widgets/todo_checkbox.dart';
 
 class TodoTile extends StatelessWidget {
   final Todo todo;
@@ -11,12 +13,9 @@ class TodoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Get.toNamed('/todo/${todo.id}');
+        Get.toNamed('/todo?id=${todo.id}');
       }, // TODO:RouterにIDを渡してタスク編集画面に遷移
-      leading: const Icon(
-        Icons.circle,
-        color: Colors.grey,
-      ), // TODO:TodoCheckboxウィジェットの作成
+      leading: TodoCheckbox(todo),
       title: Text(
         todo.description,
         style: todo.done
@@ -28,7 +27,9 @@ class TodoTile extends StatelessWidget {
             : const TextStyle(fontSize: 30),
       ),
       trailing: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.find<TodoController>().remove(todo);
+        },
         icon: const Icon(Icons.delete),
       ),
     );

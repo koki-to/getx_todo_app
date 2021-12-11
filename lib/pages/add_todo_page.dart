@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_todo_app/controllers/todo_controller.dart';
 import 'package:getx_todo_app/model/todo.dart';
+import 'package:getx_todo_app/widgets/action_button.dart';
 
 class AddTodoPage extends StatefulWidget {
   final String? todoId;
@@ -20,9 +21,11 @@ class _AddTodoPageState extends State<AddTodoPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.todoId);
     // 既存更新の場合（新規作成は以下無視）
     if (widget.todoId != null) {
       // TODO:TodoControllerから該当タスクを探してtodoに代入
+      todo = todoController.getTodoById(widget.todoId!);
       if (todo != null) {
         // 該当タスクがあった場合TextFieldにdescription表示
         textController.text = todo!.description;
@@ -67,9 +70,29 @@ class _AddTodoPageState extends State<AddTodoPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                // TODO:ActionButtonを作成する（左下のキャンセルボタン）
-                // TODO:ActionButtonを作成する（右下の更新ボタン）
+              children: <Widget>[
+                ActionButton(
+                  label: 'キャンセル',
+                  icon: Icons.delete,
+                  color: Colors.grey,
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+                ActionButton(
+                    label: todo == null ? '追加' : '更新',
+                    icon: Icons.check,
+                    color: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      final text = textController.text;
+                      if (todo == null && text.isNotEmpty) {
+                        todoController.addTodo(text); // 新規追加
+                      } else if (todo != null) {
+                        todoController.updateText(text, todo!); // 既存更新
+                      }
+                      // TODO:ブラウザから直接アクセスした場合に対応
+                      Get.back();
+                    }),
               ],
             ),
           ],
