@@ -1,34 +1,32 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
+@immutable
 class Todo {
   final String id;
   final String description;
   final bool done;
 
   Todo({required this.description, this.done = false}) : id = DateTime.now().millisecondsSinceEpoch.toString();
+
   const Todo.withId({required this.id, required this.description, this.done = false});
 
-  factory Todo.fromJson(String json) {
-    final mapData = jsonDecode(json);
-    return Todo.withId(
-      id: mapData['id'] as String,
-      description: mapData['id'] as String,
-      done: mapData['done'] as bool,
-    );
-  }
-
-  String toJson() {
-    return jsonEncode({
-      'id': id,
-      'text': description,
-      'done': done,
-    });
-  }
-
+  // サンプルタスク
   static const initialTodos = [
-    Todo.withId(id: '0', description: '犬の散歩', done: true),
-    Todo.withId(id: '1', description: '学校の宿題\n- 国語\n- 算数\n- 英語'),
-    Todo.withId(id: '2', description: '夏休みの計画'),
+    Todo.withId(
+      id: '0',
+      description: '犬の散歩',
+      done: true,
+    ),
+    Todo.withId(
+      id: '1',
+      description: '学校の宿題\n- 国語\n- 算数\n- 英語',
+    ),
+    Todo.withId(
+      id: '2',
+      description: '夏休みの計画',
+    ),
   ];
 
   Todo copyWith({
@@ -43,12 +41,21 @@ class Todo {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
+  String toJson() {
+    return jsonEncode({
       'id': id,
-      'description': description,
+      'text': description,
       'done': done,
-    };
+    });
+  }
+
+  factory Todo.fromJson(String json) {
+    final mapData = jsonDecode(json);
+    return Todo.withId(
+      id: mapData['id'] as String,
+      description: mapData['text'] as String,
+      done: mapData['done'] as bool,
+    );
   }
 
   @override

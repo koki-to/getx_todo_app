@@ -21,7 +21,7 @@ class TodoList extends StatelessWidget {
                 itemCount: todos.length,
                 itemBuilder: (context, index) {
                   final todo = todos[index];
-                  return TodoTile(todo: todo); // TODO:TodoTileウィジェットを作成
+                  return TodoTile(key: Key(todo.id), todo: todo); // TODO:TodoTileウィジェットを作成
                 },
               );
             },
@@ -30,7 +30,7 @@ class TodoList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ActionButton(
-                label: '完了削除',
+                label: '完了削除'.tr,
                 icon: Icons.delete,
                 color: Colors.grey,
                 onPressed: () {

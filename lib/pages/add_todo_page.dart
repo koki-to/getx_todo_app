@@ -30,7 +30,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
         // 該当タスクがあった場合TextFieldにdescription表示
         textController.text = todo!.description;
       } else {
-        // TODO: 該当するタスクがない場合はHomePageへ
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          Get.offNamed('/home');
+        });
       }
     }
   }
